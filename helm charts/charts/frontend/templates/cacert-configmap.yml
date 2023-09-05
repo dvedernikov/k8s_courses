@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "frontend.fullname" . }}-cacert
+  labels:
+{{ include "frontend.labels" . | indent 4 }}
+data:
+  {{- with .Values }}
+  cacert: {{ .cacert | quote }}
+  {{- end }}

@@ -1,0 +1,48 @@
+db:
+  image:
+    repository: postgres
+    tag: latest
+    pullPolicy: Always
+
+  config:
+    POSTGRES_USER: "postgres"
+    provisionAuthConfig: true
+    POSTGRES_PASSWORD: "password"
+    POSTGRES_DB: "mydb"
+
+backend:
+  image:
+    repository: "%containerRegistryNamespace%/backend"
+    tag: "%containerImageTag%"
+    pullPolicy: Always
+
+  config:
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "password"
+    POSTGRES_DB: "mydb"
+    PGHOST: "db-service"
+    PGPORT: "5432"
+    PGDATABASE: "mydb"
+
+  port: 3000
+
+  depends_on: "db"
+
+frontend:
+  image:
+    repository: "%containerRegistryNamespace%/frontend"
+    tag: "%containerImageTag%"
+    pullPolicy: Always
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: "frontend.test.com"
+        paths:
+          - "/"
+
+    tls:
+      - hosts:
+          - "frontend.test.com"
+  
+  port: 80
