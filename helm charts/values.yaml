@@ -24,8 +24,6 @@ backend:
     PGPORT: "5432"
     PGDATABASE: "mydb"
 
-  port: 3000
-
   depends_on: "db"
 
 frontend:
@@ -44,5 +42,3 @@ frontend:
     tls:
       - hosts:
           - "frontend.test.com"
-  
-  port: 80
